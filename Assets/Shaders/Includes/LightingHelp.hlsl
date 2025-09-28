@@ -31,3 +31,13 @@ void ChooseColor_float(float3 Highlight, float3 Shadow, float Diffuse, float Thr
         OUT = Highlight;
     }
 }
+
+void ChooseColor3_float(float3 Highlight, float3 Midtone, float3 Shadow, float Diffuse, float HighlightThreshold, float ShadowThreshold, float Smoothness, out float3 OUT)
+{
+    float shadowToMid = smoothstep(ShadowThreshold - Smoothness, ShadowThreshold + Smoothness, Diffuse);
+    float midToHighlight = smoothstep(HighlightThreshold - Smoothness, HighlightThreshold + Smoothness, Diffuse);
+
+    float3 shadowMidBlend = lerp(Shadow, Midtone, shadowToMid);
+
+    OUT = lerp(shadowMidBlend, Highlight, midToHighlight);
+}
